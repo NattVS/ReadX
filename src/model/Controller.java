@@ -1,6 +1,7 @@
 package model;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 public class Controller {
     private ArrayList<User> users;
 
@@ -43,54 +44,72 @@ public class Controller {
 	}
 
 	public boolean isPremium (int option){
-		if (users instanceof PremiumUser ){
-			return true;
-		}else{
-			return false;
+		return true;
+	}
+
+    public String registerProduct(int productType, String id, String name, int pages, int day, int month, int year, String url, Double price, String review, int genre, int category, String emmisionFrecuency) {
+        User newUser = null;
+        String msg = "";
+        Calendar publishingDate = new GregorianCalendar(year, month, day);
+        Genre newGenre= Genre.DOESNT_APPLY;
+        Category newCategory= Category.DOESNT_APPLY;
+
+		switch (genre) {
+			case 1:
+				newGenre = Genre.SCIENCE_FICTION;
+			break;
+			case 2:
+				newGenre = Genre.FANTASY;
+			break;
+			case 3:
+				newGenre = Genre.HISTORICAL_NOVEL;
+			break;
+			default:
+				newGenre = Genre.DOESNT_APPLY;
+			break;
 		}
+
+        switch (category) {
+			case 1:
+				newCategory = Category.VARIETIES;
+			break;
+			case 2:
+				newCategory = Category.DESIGN;
+			break;
+			case 3:
+				newCategory = Category.SCIENTIFIC;
+			break;
+			default:
+				newCategory = Category.DOESNT_APPLY;
+			break;
+		}
+
+        if (productType == 1){
+            newUser = new RegularUser(productType, id, name);
+            msg += "User registered succesfully";
+        }else if (productType == 2){
+            newUser = new PremiumUser(productType, id, name);
+            msg += "User registered succesfully";
+        }else {
+            msg += "An error ocurred, the user couldn't be registered";
+        }
+        users.add(newUser);
+        return msg;
 	}
 
 	public boolean editUser(int userPosition, int modifyOption, String newName, int categoryOption) {
-		String name = users[userPosition].getName();
-		if (users[userPosition] instanceof PremiumUser) {
-			PremiumUser premiumUser = (PremiumUser) users[userPosition];
-			if (newName.equals("")){
-				users[userPosition].setName(name);
-			}else{
-				users[userPosition].setName(newName);
-			}
-			UserCategory newCategory = UserCategory.DOESNT_APPLY;
-			switch (categoryOption) {
-				case 1:
-					newCategory = UserCategory.SILVER;
-				break;
-				case 2:
-					newCategory = UserCategory.GOLD;
-				break;
-				case 3:
-					newCategory = UserCategory.DIAMOND;
-				break;
-				default:
-					newCategory = UserCategory.DOESNT_APPLY;
-				break;
-			}
-			premiumUser.setUserCategory(newCategory);
-			return true;
-		}else if (users[userPosition] instanceof RegularUser) {
-			users[userPosition].setName(newName);
-			return true;
-		}
+		
 		return false;
 	}
 
 	public boolean deleteUser(int userPosition) {
-		users[userPosition]=null;
+		
 		return true;
 	}
 
 	public String getUserInfo(int option) {
 		String msg = "";
-		msg += users[option].toString();
+		
 		return msg;
 	}
 
@@ -101,23 +120,7 @@ public class Controller {
 		int countSilver = 0;
 		int countGold = 0;
 		int countDiamond = 0;
-		for(int i=0;i<users.length;i++){
-			if(users[i] != null){
-				if (users[i] instanceof RegularUser){
-					countRegulars ++;
-				}else if  (users[i] instanceof PremiumUser) {
-					countPremium ++;
-					PremiumUser thisPremiumUser = (PremiumUser) users[i];
-					if (thisPremiumUser.getUserCategory() == UserCategory.SILVER){
-						countSilver ++;
-					}else if (thisPremiumUser.getUserCategory() == UserCategory.GOLD){
-						countGold ++;
-					}else if (thisPremiumUser.getUserCategory() == UserCategory.DIAMOND){
-						countDiamond ++;
-					}
-				}
-			}
-		}
+		
 		if (userTypeOp!= 0){
 			if (userTypeOp == 1) {
 				msg +="The amount of registered regular users is " + countRegulars;

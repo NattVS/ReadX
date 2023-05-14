@@ -40,16 +40,16 @@ public class Executable {
 				registerUser();
 				break;
 			case 2:
-				modifyUser();
+                RegisterProduct();
 				break;
 			case 3:
-				deleteUser();
+                modifyUser();
 				break;
 			case 4:
-				showUserInfo();
+                deleteUser();
 				break;
 			case 5:
-				showAllUserInfo();
+				buyAProduct();
 				break;
 			case 6:
 				flag = true;
@@ -80,6 +80,51 @@ public class Executable {
         System.out.println(msg);
 
 	}
+
+    private void RegisterProduct(){
+        String msg = "";
+        String review = "";
+        int genre = 0;
+        int category = 0;
+        String emmisionFrecuency = "";
+		System.out.println("Please, enter the information of the new user:");
+		System.out.println("Enter the type of product \n1. Book \n2. Magazine");
+		int productType = reader.nextInt();
+		//Buffer
+		reader.nextLine();
+		System.out.println("Enter the product's ID");
+		String id = reader.nextLine();
+		System.out.println("Enter the product's name");
+		String name = reader.nextLine();
+        System.out.println("How many pages does the product have?");
+		int pages = reader.nextInt();
+        System.out.println("Enter the product's publication date:");
+		System.out.println("-Enter the day ");
+		int day = reader.nextInt();
+		System.out.println("-Enter the month ");
+		int month = reader.nextInt();
+		System.out.println("-Enter the year ");
+		int year = reader.nextInt();
+        System.out.println("Enter the cover's URL");
+		String url = reader.nextLine();
+        System.out.println("Enter the product's price in dolars");
+		Double price = reader.nextDouble();
+
+        if (productType == 1){
+            System.out.println("Enter a short review of the book");
+			review = reader.nextLine();
+			System.out.println("Enter the book's genre: \n1. Science Fiction \n2. Fantacy \n3. Historic Novel");
+			genre = reader.nextInt();
+		}else if (productType == 2){
+            System.out.println("Enter the magazine's catogory: \n1. Varieties \n2. Design \n3. Science");
+            category = reader.nextInt();
+            System.out.println("How often is this maagazine going to be emmited?");
+            emmisionFrecuency = reader.nextLine();
+        }
+		msg = rXSystem.registerProduct(productType, id, name, pages, day, month, year, url, price, review, genre, category, emmisionFrecuency);
+
+        System.out.println(msg);
+    }
 
 	private void modifyUser() {
 
@@ -155,6 +200,10 @@ public class Executable {
 		}
 
 	}
+
+    private void buyAProduct(){
+
+    }
 
 	private void showUserInfo() {
 
