@@ -23,11 +23,12 @@ public class Executable {
 
 	private void menu() {
 
-		System.out.println("Welcome to ReadX! \nPlease choose one of the following options:");
+		System.out.println("Welcome to ReadX!");
 
 		boolean flag = false;
 
 		while (!flag) {
+			System.out.println("Please choose one of the following options:");
 			System.out.println("1. Register an user");
 			System.out.println("2. Register a product");
 			System.out.println("3. Modify the information of a product");
@@ -43,10 +44,10 @@ public class Executable {
                 RegisterProduct();
 				break;
 			case 3:
-                modifyUser();
+				modifyBibliograficProduct();
 				break;
 			case 4:
-                deleteUser();
+                
 				break;
 			case 5:
 				buyAProduct();
@@ -105,11 +106,14 @@ public class Executable {
 		int month = reader.nextInt();
 		System.out.println("-Enter the year ");
 		int year = reader.nextInt();
+		//Buffer
+		reader.nextLine();
         System.out.println("Enter the cover's URL");
 		String url = reader.nextLine();
         System.out.println("Enter the product's price in dolars");
 		Double price = reader.nextDouble();
-
+		//Buffer
+		reader.nextLine();
         if (productType == 1){
             System.out.println("Enter a short review of the book");
 			review = reader.nextLine();
@@ -126,135 +130,43 @@ public class Executable {
         System.out.println(msg);
     }
 
-	private void modifyUser() {
-
-		String query = rXSystem.getUserList();
+	private void modifyBibliograficProduct(){
+		String query = rXSystem.getProductsList();
 
 		if (query.equals("")) {
-
-			System.out.println("There aren't any registered users");
+			System.out.println("There aren't any bibliografic products registered");
 		} else {
 
-			System.out.println("\nThis are the registered users: ");
-
+			System.out.println("\nThis are the registered products: ");
 			System.out.println(query);
-			
-			System.out.println("\nEnter the user whose information you wish to modify");
+
+			System.out.println("\nEnter the number that corresponds to the product you wish to modify");
 			int option = reader.nextInt();
-			Boolean isPremium = rXSystem.isPremium(option-1);
-			System.out.println("\nEnter the modification you wish to do: \n1. Edit Name \n2. Edit Category");
+			
+			System.out.println("\nEnter the modification you wish to do: \n1. Edit Id \n2. Edit Name  \n3. Edit Number of pages  \n4. Edit Publishing Date  \n5. Edit Url  \n6. Edit Price \n7. Edit review (Only for Books) \n8. Edit Genre (Only for Books) \n9. Edit Category (Only for Magazines) \n10. Edit Emmision Frecuency (Only for Magazines)");
 			int modifyOption = reader.nextInt();
 			//Buffer
 			reader.nextLine();
-			String newName = "";
-			int categoryOption = 0;
-			if (modifyOption == 1){
-				System.out.println("\nEnter the user's new name");
-				newName = reader.nextLine();
-			} else if (modifyOption == 2){
-				if (isPremium == true){
-					System.out.println("\nEnter the new category \n1. Silver \n2. Gold \n3. Diamond");
-					categoryOption = reader.nextInt();
+			Boolean bookOrMagazine = rXSystem.bookOrMagazine(option-1);
+			Boolean proceed = false;
+			while (proceed == false){
+				if (bookOrMagazine == true && (modifyOption == 9 || modifyOption == 10 )){
+					System.out.println("The product you're trying to edit is a book and the modification you wish to do is only for magazines \n Choose another modification:");
+					modifyOption = reader.nextInt();
+				}else if (bookOrMagazine == false && (modifyOption == 7 || modifyOption == 8)){
+					System.out.println("The product you're trying to edit is a book and the modification you wish to do is only for magazines \n Choose another modification:");
+					modifyOption = reader.nextInt();
 				}else {
-					System.out.println("\nThe user is not a premium user, it's category cannot be edited. ");
-					categoryOption = 0;
+					proceed = true;
 				}
 			}
-			if (rXSystem.editUser(option - 1, modifyOption, newName, categoryOption)) {
-				if (categoryOption == 0){
-					System.out.println("Make sure the user you are choosing is an premium user to change its category");
-				}else{
-					System.out.println("\nThe user's information has been succesfully modified");
-				}
-
-			} else {
-				System.out.println("\nError, there user couldn't be modified");
-			}
 		}
-	}
-
-	private void deleteUser() {
-
-		String query = rXSystem.getUserList();
-
-		if (query.equals("")) {
-			System.out.println("There aren't any registered users");
-		} else {
-			System.out.println("\nThis are the registered users:");
-
-			System.out.println(query);
-			
-			System.out.println("\nEnter the user you wish to delete");
-
-			int option = reader.nextInt();
-
-			if (rXSystem.deleteUser(option - 1)) {
-
-				System.out.println("\nUser succesfully deleted");
-
-			} else {
-
-				System.out.println("\nError, the user couldn't be deleted");
-			}
-
-		}
-
 	}
 
     private void buyAProduct(){
-
+		System.out.println("We are still working on this option, we'll keep you updated");
     }
 
-	private void showUserInfo() {
-
-		String query = rXSystem.getUserList();
-
-		if (query.equals("")) {
-
-			System.out.println("There aren't any registered users");
-		}else {
-			System.out.println("\nThis are the registered users:");
-
-			System.out.println(query);
-			//Buffer
-			reader.nextLine();
-			System.out.println("\nEnter the user you wish to see the information");
-
-			int option = reader.nextInt();
-
-			String query2 = rXSystem.getUserInfo(option-1);
-
-			if (query2.equals("")) {
-				System.out.println("There was a mistake in the process");
-			} else {
-				System.out.println(query2);
-			}
-
-		}
-	}
-
-	private void showAllUserInfo() {
-		String query = "";
-		int userTypeOp = 0;
-		int categoryOp = 0;
-		System.out.println("What do you wish to consult?: \n1. The users by type of user \n2. The users by category");
-		int option= reader.nextInt();
-		if (option == 1) {
-			System.out.println("What type of user do you wish to consult?: \n1. The regular users \n2. The premium users");
-			userTypeOp = reader.nextInt(); 
-			query = rXSystem.getAllUsersInfo(userTypeOp, categoryOp);
-		}else if (option == 2){
-			System.out.println("What category do you wish to consult?: \n1. The users in the silver category \n2. The users in the gold category \n3. The users in the diamond category");
-			categoryOp = reader.nextInt();
-			query = rXSystem.getAllUsersInfo(userTypeOp, categoryOp);
-		}
-		if (query.equals("")) {
-
-			System.out.println("There aren't any registered users");
-		} else {
-			System.out.println(query);
-		}
-
-	}
+	
 }
 

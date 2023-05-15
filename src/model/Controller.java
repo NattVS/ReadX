@@ -4,10 +4,11 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 public class Controller {
     private ArrayList<User> users;
-
+    private ArrayList<BibliograficProduct> products;
 	public Controller() {
 
 		this.users = new ArrayList<User>();
+		this.products = new ArrayList<BibliograficProduct>();
 		testCases();
 
 	}
@@ -16,13 +17,15 @@ public class Controller {
 
 		users.add(new PremiumUser(1, "1234", "John Smith"));
 		users.add(new RegularUser(2, "5678", "Pocahontas"));
+		//products.add(new Book(1, "Libro 1", "Calamares gigantes que conquistan el mundo", 54, ,Calendar instance set to March 14, 1960 "https//:Calamaresqueconquistanalmundo.jpg", 20, "En un dia normal los calamares se alzaron de los oceanos y comenzaron a invadir las ciudades", Genre.SCIENCE_FICTION));
+		
 	}
 
-	public String getUserList() {
+	public String getProductsList() {
 
 		String msg = "";
-		for (int i = 0; i < users.size(); i++) {
-			msg += "\n" + (i + 1) + ". " + users.get(i).getId() + " - " + users.get(i).getName();
+		for (int i = 0; i < products.size(); i++) {
+			msg += "\n" + (i + 1) + ". " + products.get(i).getId() + " - " + products.get(i).getName();
 		}
 		return msg;
 	}
@@ -43,12 +46,8 @@ public class Controller {
         return msg;
 	}
 
-	public boolean isPremium (int option){
-		return true;
-	}
-
     public String registerProduct(int productType, String id, String name, int pages, int day, int month, int year, String url, Double price, String review, int genre, int category, String emmisionFrecuency) {
-        User newUser = null;
+        BibliograficProduct newProduct = null;
         String msg = "";
         Calendar publishingDate = new GregorianCalendar(year, month, day);
         Genre newGenre= Genre.DOESNT_APPLY;
@@ -85,65 +84,25 @@ public class Controller {
 		}
 
         if (productType == 1){
-            newUser = new RegularUser(productType, id, name);
-            msg += "User registered succesfully";
+            newProduct = new Book(productType, id, name, pages, publishingDate, url, price, review, newGenre);
+            msg += "Product registered succesfully";
         }else if (productType == 2){
-            newUser = new PremiumUser(productType, id, name);
-            msg += "User registered succesfully";
+            newProduct = new Magazine(productType, id, name, pages, publishingDate, url, price, newCategory, emmisionFrecuency);
+            msg += "Product registered succesfully";
         }else {
-            msg += "An error ocurred, the user couldn't be registered";
+            msg += "An error ocurred, the product couldn't be registered";
         }
-        users.add(newUser);
+        products.add(newProduct);
         return msg;
 	}
 
-	public boolean editUser(int userPosition, int modifyOption, String newName, int categoryOption) {
-		
-		return false;
-	}
-
-	public boolean deleteUser(int userPosition) {
-		
-		return true;
-	}
-
-	public String getUserInfo(int option) {
-		String msg = "";
-		
-		return msg;
-	}
-
-	public String getAllUsersInfo(int userTypeOp, int categoryOp) {
-		String msg ="";
-		int countRegulars = 0;
-		int countPremium = 0;
-		int countSilver = 0;
-		int countGold = 0;
-		int countDiamond = 0;
-		
-		if (userTypeOp!= 0){
-			if (userTypeOp == 1) {
-				msg +="The amount of registered regular users is " + countRegulars;
-			}else if (userTypeOp == 2){
-				msg +="The amount of registered premium users is " + countPremium;
-			}
+	public boolean bookOrMagazine (int option){
+		if (products.get(option) instanceof Book ){
+			return true;
+		}else{
+			return false;
 		}
-		if (categoryOp!= 0){
-			switch (categoryOp) {
-				case 1:
-					msg +="The amount of registered premium users in the silver category is " + countSilver;
-				break;
-				case 2:
-					msg +="The amount of registered premium users in the gold category is " + countGold;
-				break;
-				case 3:
-					msg +="The amount of registered premium users in the diamond category is " + countDiamond;
-				break;
-				default:
-					msg +="Wrong option";
-				break;
-			}
-		}
-		return msg;
 	}
+
+	
 }

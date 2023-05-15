@@ -1,23 +1,32 @@
 package model;
 import java.util.Calendar;
+import java.text.DateFormat;
 public abstract class BibliograficProduct {
-    private int type;
+    private int productType;
 	private String id;
 	private String name;
-	private Calendar signUpDate;
+	private int pages;
+	private Calendar publishingDate;
+	private String url;
+	private Double price;
+	private DateFormat formatter;
 
-	public BibliograficProduct(int type, String id, String name) {
-		this.type = type;
+	public BibliograficProduct(int productType, String id, String name, int pages, Calendar publishingDate, String url, Double price) {
+		this.productType = productType;
 		this.id = id;
 		this.name = name;
+		this.pages = pages;
+		this.publishingDate = publishingDate;
+		this.url = url;
+		this.price = price;
 	}
     
-	public int getType() {
-		return type;
+	public int getProductType() {
+		return productType;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setProductType(int productType) {
+		this.productType = productType;
 	}
 
 	public String getId() {
@@ -36,11 +45,39 @@ public abstract class BibliograficProduct {
 		this.name = name;
 	}
 
-	public Calendar getSignUpDate() {
-		return signUpDate;
+	public int getPages() {
+		return pages;
 	}
 
-	public void setSignUpDate(Calendar signUpDate) {
-		this.signUpDate = signUpDate;
+	public void setPages(int pages) {
+		this.pages = pages;
+	}
+
+	public Calendar getPublishingDate(){
+		return publishingDate;
+	}
+	
+	public String getPublishingDateFormated() {
+		return formatter.format(this.publishingDate.getTime());
+	}
+
+	public void setPublishingDate(Calendar publishingDate) {
+		this.publishingDate = publishingDate;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 }
