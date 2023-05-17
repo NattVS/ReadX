@@ -17,7 +17,8 @@ public class Controller {
 
 		users.add(new PremiumUser(1, "1234", "John Smith"));
 		users.add(new RegularUser(2, "5678", "Pocahontas"));
-		//products.add(new Book(1, "Libro 1", "Calamares gigantes que conquistan el mundo", 54, ,Calendar instance set to March 14, 1960 "https//:Calamaresqueconquistanalmundo.jpg", 20, "En un dia normal los calamares se alzaron de los oceanos y comenzaron a invadir las ciudades", Genre.SCIENCE_FICTION));
+		products.add(new Book(1, "Libro 1", "Calamares gigantes que conquistan el mundo", 54, Calendar.getInstance(), "https//:Calamaresqueconquistanalmundo.jpg", 20.5, "En un dia normal los calamares se alzaron de los oceanos y comenzaron a invadir las ciudades", Genre.SCIENCE_FICTION));
+		products.add(new Magazine(2, "EEE", "SCIENCE WOW!", 24, Calendar.getInstance(), "https//:sciencewow.jpg", 14.5, Category.SCIENTIFIC, "Daily"));
 		
 	}
 
