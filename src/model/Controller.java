@@ -17,9 +17,8 @@ public class Controller {
 
 		users.add(new PremiumUser(1, "1234", "John Smith"));
 		users.add(new RegularUser(2, "5678", "Pocahontas"));
-		products.add(new Book(1, "Libro 1", "Calamares gigantes que conquistan el mundo", 54, Calendar.getInstance(), "https//:Calamaresqueconquistanalmundo.jpg", 20.5, "En un dia normal los calamares se alzaron de los oceanos y comenzaron a invadir las ciudades", Genre.SCIENCE_FICTION));
-		products.add(new Magazine(2, "EEE", "SCIENCE WOW!", 24, Calendar.getInstance(), "https//:sciencewow.jpg", 14.5, Category.SCIENTIFIC, "Daily"));
-		
+		products.add(new Book(1, "Book 1", "Giant squids that conquer the world", 54, Calendar.getInstance(), "https//:Gigantsquidsthatconquertheworld.jpg", 20.5, "On a normal day the squids rose from the oceans and began to invade the cities", Genre.SCIENCE_FICTION));
+		products.add(new Magazine(2, "Magazine 1", "SCIENCE WOW!", 24, Calendar.getInstance(), "https//:sciencewow.jpg", 14.5, Category.SCIENTIFIC, "Daily"));
 	}
 
 	public String getProductsList() {
@@ -68,7 +67,6 @@ public class Controller {
 				newGenre = Genre.DOESNT_APPLY;
 			break;
 		}
-
         switch (category) {
 			case 1:
 				newCategory = Category.VARIETIES;
@@ -105,5 +103,87 @@ public class Controller {
 		}
 	}
 
-	
+	public boolean modifyProduct (int productPosition, int modifyOption, int newDay, int newMonth, int newYear, String modification) {
+
+        switch(modifyOption){
+	    
+			case 1:
+				products.get(productPosition).setId(modification);
+				return true;
+			
+			case 2:
+				products.get(productPosition).setName(modification);
+				return true;
+			case 3:
+				int newPages = Integer.parseInt(modification);
+				products.get(productPosition).setPages(newPages);
+				return true;
+				
+			case 4:
+				Calendar newPublishingDate = new GregorianCalendar(newDay, newMonth, newYear);
+				products.get(productPosition).setPublishingDate(newPublishingDate);
+				return true;
+			
+			case 5:
+				products.get(productPosition).setUrl(modification);
+				return true;
+
+			case 6:
+				double newPrice = Double.parseDouble(modification);
+				products.get(productPosition).setPrice(newPrice);;
+				return true;
+			case 7:
+				((Book)(products.get(productPosition))).setReview(modification);
+				return true;
+			case 8:
+				Genre genre = null;
+			
+				switch(modification){
+					case "1":
+						genre = Genre.SCIENCE_FICTION;
+					break;
+					case "2":
+						genre = Genre.FANTASY;
+					break;
+					case "3":
+						genre = Genre.HISTORICAL_NOVEL;
+					break;
+					default:
+						genre = Genre.DOESNT_APPLY;
+					break;
+				}
+				((Book)(products.get(productPosition))).setGenre(genre);
+				return true;
+			case 9:
+				Category category = null;
+				
+				switch(modification){
+					case "1":
+						category = Category.VARIETIES;
+					break;
+					case "2":
+						category = Category.DESIGN;
+					break;
+					case "3":
+						category = Category.SCIENTIFIC;
+					break;
+					default:
+						category = Category.DOESNT_APPLY;
+					break;
+				}
+				((Magazine)(products.get(productPosition))).setCategory(category);
+				return true;
+			case 10:
+				((Magazine)(products.get(productPosition))).setEmmisionFrecuency(modification);
+				return true;
+		}
+		return false;
+   
+	}
+
+	public boolean deleteBibliograficProduct(int productPosition){
+		products.remove(productPosition);
+		return true;
+	}
+
 }

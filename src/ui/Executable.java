@@ -41,18 +41,19 @@ public class Executable {
 				registerUser();
 				break;
 			case 2:
-                RegisterProduct();
+				registerProduct();
 				break;
 			case 3:
 				modifyBibliograficProduct();
 				break;
 			case 4:
-                
+				deleteBibliograficProduct();
 				break;
 			case 5:
 				buyAProduct();
 				break;
 			case 6:
+				System.out.println("Thanks for using ReadX's services! \nHope we'll see you again, goodbye");
 				flag = true;
 				break;
 			default:
@@ -82,7 +83,7 @@ public class Executable {
 
 	}
 
-    private void RegisterProduct(){
+    private void registerProduct(){
         String msg = "";
         String review = "";
         int genre = 0;
@@ -122,7 +123,7 @@ public class Executable {
 		}else if (productType == 2){
             System.out.println("Enter the magazine's catogory: \n1. Varieties \n2. Design \n3. Science");
             category = reader.nextInt();
-            System.out.println("How often is this maagazine going to be emmited?");
+            System.out.println("How often is this magazine going to be emmited?");
             emmisionFrecuency = reader.nextLine();
         }
 		msg = rXSystem.registerProduct(productType, id, name, pages, day, month, year, url, price, review, genre, category, emmisionFrecuency);
@@ -143,7 +144,7 @@ public class Executable {
 			System.out.println("\nEnter the number that corresponds to the product you wish to modify");
 			int option = reader.nextInt();
 			
-			System.out.println("\nEnter the modification you wish to do: \n1. Edit Id \n2. Edit Name  \n3. Edit Number of pages  \n4. Edit Publishing Date  \n5. Edit Url  \n6. Edit Price \n7. Edit review (Only for Books) \n8. Edit Genre (Only for Books) \n9. Edit Category (Only for Magazines) \n10. Edit Emmision Frecuency (Only for Magazines)");
+			System.out.println("\nWhat do you wish to modify?: \n1. Edit Id \n2. Edit Name  \n3. Edit Number of pages  \n4. Edit Publishing Date  \n5. Edit Url  \n6. Edit Price \n7. Edit review (Only for Books) \n8. Edit Genre (Only for Books):\n    ->1. Science Fiction, 2. Fantacy, 3. Historic Novel  \n9. Edit Category (Only for Magazines)\n    ->1. Varieties, 2. Design, 3. Science \n10. Edit Emmision Frecuency (Only for Magazines)");
 			int modifyOption = reader.nextInt();
 			//Buffer
 			reader.nextLine();
@@ -160,7 +161,54 @@ public class Executable {
 					proceed = true;
 				}
 			}
+			System.out.println("Enter the modification:");
+			String modification = "";
+			int newDay = 0;
+			int newMonth = 0;
+			int newYear = 0;
+			if (modifyOption == 4){
+				System.out.println("-Enter the day ");
+				newDay = reader.nextInt();
+				System.out.println("-Enter the month ");
+				newMonth = reader.nextInt();
+				System.out.println("-Enter the year ");
+				newYear = reader.nextInt();
+			}else {
+				modification = reader.nextLine();
+			}
+
+			if(rXSystem.modifyProduct(option-1, modifyOption, newDay, newMonth, newYear, modification)){
+
+				System.out.println("The product has been succesfully modified");
+
+			}else{
+			
+				System.out.println("There was a mistake and the product coulnd't be modified");
+			}
 		}
+	}
+
+	private void deleteBibliograficProduct(){
+
+		String query = rXSystem.getProductsList();
+		if (query.equals("")) {
+			System.out.println("There aren't any bibliografic products registered");
+		} else {
+			System.out.println("\nThis are the registered products: ");
+			System.out.println(query);
+
+			System.out.println("\nEnter the number that corresponds to the product you wish to delete");
+			int option = reader.nextInt();
+
+			if (rXSystem.deleteBibliograficProduct(option-1)) {
+
+				System.out.println("The product was succesfully deleted");
+
+			} else {
+
+				System.out.println("There was a mistake and the product couldn't be modified");
+			}
+		}	
 	}
 
     private void buyAProduct(){
