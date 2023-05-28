@@ -28,27 +28,6 @@ public abstract class User {
 		}
 		return msg;
 	}
-
-	public int getCollectionSize(){
-		int size = collection.size();
-		return size;
-	}
-
-	public int getProductsAmount(int productType){
-		int bookAmount = 0;
-		int magazineAmount = 0;
-		int amount = 0;
-		for (int i = -1; i < collection.size(); i++){
-			if (productType == 1){
-				bookAmount++;
-				amount = bookAmount;
-			}else if (productType == 2){
-				magazineAmount++;
-				amount = magazineAmount;
-			}
-		}	
-		return amount;
-	}
 	
 	//Getters & Setters
 	public int getType() {
@@ -82,5 +61,23 @@ public abstract class User {
 	public void setSignUpDate(Calendar signUpDate) {
 		this.signUpDate = signUpDate;
 	}
+
+	public ArrayList<BibliograficProduct> getProduct() {
+		return product;
+	}
+
+	public void setProduct(ArrayList<BibliograficProduct> product) {
+		this.product = product;
+	}
+
+	public ArrayList<BibliograficProduct> getCollection() {
+		return collection;
+	}
+
+	public void setCollection(ArrayList<BibliograficProduct> collection) {
+		this.collection = collection;
+	}
+
+	
 
 }

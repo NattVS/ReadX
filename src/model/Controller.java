@@ -18,7 +18,11 @@ public class Controller {
 		users.add(new RegularUser(1, "112345", "Norman Smith"));
 		users.add(new PremiumUser(2, "107582", "Juana Of the Sea"));
 		products.add(new Book(1, "B01", "Giant squids that conquer the world", 54, Calendar.getInstance(), "https//:Gigantsquidsthatconquertheworld.jpg", 20.5, "On a normal day the squids rose from the oceans and began to invade the cities", Genre.SCIENCE_FICTION));
-		products.add(new Book(1, "B02", "Whispers of the forgotten stars", 104, Calendar.getInstance(), "https//:Whispersoftheforgottenstar.jpg", 20.5, "A young stargazer discovers a hidden celestial language in the night sky", Genre.SCIENCE_FICTION));
+		products.add(new Book(1, "B02", "Whispers of the forgotten stars", 154, Calendar.getInstance(), "https//:Whispersoftheforgottenstar.jpg", 20.5, "A young stargazer discovers a hidden celestial language in the night sky", Genre.FANTASY));
+		products.add(new Book(1, "B03", "The labyrinth's secret symphony", 204, Calendar.getInstance(), "https//:Thelabyrinthssecretsymphony.jpg", 20.5, "a gifted musician uncovers a magical instrument that holds the power to unlock the secrets of the maze", Genre.FANTASY));
+		products.add(new Book(1, "B04", "Gigant robot street fights", 104, Calendar.getInstance(), "https//:Gigantrobotstreetfights.jpg", 20.5, "Scientists and mechanics have discovered a way to create robots that are a great form of entreteinment", Genre.SCIENCE_FICTION));
+		products.add(new Book(1, "B05", "Entering the new world", 234, Calendar.getInstance(), "https//:Enteringthenewworld.jpg", 20.5, "I've been traveling for years, now I'm finally ready to enter the new world", Genre.HISTORICAL_NOVEL));
+		products.add(new Book(1, "B06", "Conquering the unknown", 104, Calendar.getInstance(), "https//:Conqueringtheunknown.jpg", 20.5, "Famous scientist reveal the process behing the discovery of water in the moon", Genre.HISTORICAL_NOVEL));
 		products.add(new Magazine(2, "M01", "SCIENCE WOW!", 24, Calendar.getInstance(), "https//:sciencewow.jpg", 14.5, Category.SCIENTIFIC, "Daily"));
 	}
 
@@ -196,34 +200,30 @@ public class Controller {
 		return true;
 	}
 
-	public String buyAProduct(int userPosition, int productPosition) {
+	public String buyAProduct(int userPosition, int productPosition) {	
 		String msg = "";
-		int productType = 0;
-		int maxSizeBooks = 5;
-		int maxSizeMagazine = 2;
-		
 		if (users.get(userPosition) instanceof RegularUser) {
-			if (products.get(productPosition) instanceof Book) {
-				productType = 1;
-			} else if (products.get(productPosition) instanceof Magazine) {
-				productType = 2;
-			}
-			
-			for (int i = -1; i < users.get(userPosition).getCollectionSize(); i++){
-				int info = (users.get(userPosition).getProductsAmount(productType));
-				if (users.get(userPosition).getProductsAmount(productType) > maxSizeBooks) {
-					msg += "You have reached the maximum amount of books that you can buy for free, if you want to buy more, become a premium member now!";
-				} else if (users.get(userPosition).getProductsAmount(productType) > maxSizeMagazine) {
-					msg += "You have reached the maximum amount of magazines that you can subscribe to for free, if you want to subscribe to more, become a premium member now!";
-				}else{
-					msg += info + " " + users.get(userPosition).addProductToInventory(products.get(productPosition));
+			int bookAmount = 1;
+			int magazineAmount = 0;
+			BibliograficProduct product = products.get(productPosition);
+			for (int i = 0; i < users.get(userPosition).getCollection().size(); i++) {
+				BibliograficProduct userProduct = users.get(userPosition).getCollection().get(i);
+				if (userProduct instanceof Book) {
+					bookAmount++;
+				} else if (userProduct instanceof Magazine) {
+					magazineAmount++;
 				}
 			}
-			
-		} else if (users.get(userPosition) instanceof PremiumUser) {
-			msg += users.get(userPosition).addProductToInventory(products.get(productPosition));
+	
+			if ((product instanceof Book && bookAmount <= 5) || (product instanceof Magazine && magazineAmount <= 2)) {
+				msg += bookAmount + users.get(userPosition).addProductToInventory(products.get(productPosition));
+			} else {
+				msg += "You have reached the maximum amount of products that you can get for free, if you want to get more, become a premium member now!";
+			}
+		} else {
+			msg = "hi"+ users.get(userPosition).addProductToInventory(products.get(productPosition));
 		}
-		
+	
 		return msg;
 	}
 
