@@ -215,7 +215,7 @@ public class Controller {
 				}
 			}
 			if ((product instanceof Book && bookAmount <= 5) || (product instanceof Magazine && magazineAmount <= 2)) {
-				msg += users.get(userPosition).addProductToInventory(products.get(productPosition));
+				msg += users.get(userPosition).addProductToCollection(products.get(productPosition));
 				if (products.get(productPosition) instanceof Book){
 					int soldUnits = ((Book)products.get(productPosition)).getSoldUnits();
 					soldUnits = soldUnits + 1;
@@ -227,7 +227,7 @@ public class Controller {
 				msg += "You have reached the maximum amount of products that you can get for free, if you want to get more, become a premium member now!";
 			}
 		} else {
-			msg = users.get(userPosition).addProductToInventory(products.get(productPosition));
+			msg = users.get(userPosition).addProductToCollection(products.get(productPosition));
 			if (products.get(productPosition) instanceof Book){
 				int soldUnits = ((Book)products.get(productPosition)).getSoldUnits();
 				soldUnits = soldUnits + 1;
@@ -237,6 +237,25 @@ public class Controller {
 			}
 		}
 	
+		return msg;
+	}
+
+	public String getUsersProducts(int userPosition){
+		String msg = "";
+		msg += users.get(userPosition).showUsersCollection(userPosition);
+		return msg;
+	}
+
+	public String cancelMagazineSubscription(int userPosition, int productPosition){
+		String msg = "";
+		msg += "product" + products.get(productPosition);
+		if (products.get(productPosition) instanceof Magazine){
+			msg = users.get(userPosition).deleteMagazineFromCollection(products.get(productPosition));
+			int activeSuscriptions = ((Magazine)products.get(productPosition)).getActiveSuscriptions();
+			activeSuscriptions = activeSuscriptions - 1;
+		}else{
+			msg += "The choosen product is not a magazine";
+		}
 		return msg;
 	}
 
@@ -306,5 +325,23 @@ public class Controller {
 		} 
 		return msg;
 	}
+
+	public String totalPagesRead() {
+		String msg = "";
+		double booksRead = 0;
+		double magazinesRead = 0;
+		for(int i = 0; i<products.size(); i++){
+			if(products.get(i) instanceof Book){
+				booksRead += products.get(i).getPagesRead();
+			}
+			if(products.get(i) instanceof Magazine){
+				magazinesRead+=products.get(i).getPagesRead();
+			}
+			
+		}
+		msg += "\nThe total amount of pages read for each bibliografic product is: \nBooks: " + booksRead + "\nMagazines: " + magazinesRead;
+		return msg;
+	}
+
 
 }	

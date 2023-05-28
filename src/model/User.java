@@ -18,13 +18,32 @@ public abstract class User {
 		this.collection = new ArrayList<BibliograficProduct>();
 	}
     
-	public String addProductToInventory(BibliograficProduct product){
+	public String addProductToCollection(BibliograficProduct product){
 		String msg = "";
 		if (collection.contains(product)){
 			msg = "You have already bought this product";
 		}else {
 			collection.add(product);
 			msg = "The product was bought succesfully";
+		}
+		return msg;
+	}
+
+	public String showUsersCollection(int userPosition){
+		String msg = "";
+		for (int i = 0; i < collection.size(); i++) {
+			msg += "\n" + (i + 1) + ". " + collection.get(i).getId() + " - " + collection.get(i).getName();
+		}
+		return msg;
+	}
+
+	public String deleteMagazineFromCollection(BibliograficProduct product){
+		String msg = "";
+		if (collection.contains(product)){
+			collection.remove(product);
+			msg = "You have cancelled you're subscription to this magazine";
+		}else {
+			msg = "You don't have this magazine in your collection";
 		}
 		return msg;
 	}

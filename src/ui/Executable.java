@@ -56,13 +56,13 @@ public class Executable {
 				buyAProduct();
 				break;
 			case 6:
-				//Missing unsubscribe to a magazine method
+				cancelMagazineSubscription();
 			break;	
 			case 7:
 				showMatrix();
 				break;
 			case 8:
-				//Missing generate reports method
+				totalPagesRead();
 			break;	
 			case 9:
 				System.out.println("Thanks for using ReadX's services! \nHope we'll see you again, goodbye");
@@ -245,6 +245,27 @@ public class Executable {
 		}
     }
 
+	private void cancelMagazineSubscription(){
+		String usersQuery = rXSystem.getUsersList();
+		if (usersQuery.equals("")) {
+			System.out.println("There aren't any users registered");
+		} else {
+			System.out.println("\nThis are the registered users: ");
+			System.out.println(usersQuery);
+			System.out.println("\nEnter the number that corresponds to the user that is going to cancel their subcription");
+			int option = reader.nextInt();
+			String productsQuery = rXSystem.getUsersProducts(option-1);
+			System.out.println("\nThis are the products that this user has bought: ");
+			System.out.println(productsQuery);
+			System.out.println("\nEnter the number that corresponds to the magazine the user is goint to cancel their subscription to");
+			int option2 = reader.nextInt();
+
+			String msg = rXSystem.cancelMagazineSubscription(option-1, option2+5);
+
+        	System.out.println(msg);
+		}
+    }
+
 	private void showMatrix(){
 		String usersQuery = rXSystem.getUsersList();
 		if (usersQuery.equals("")) {
@@ -302,6 +323,10 @@ public class Executable {
 				}
 			}	
 		}	
+	}
+
+	public void totalPagesRead() {
+		System.out.println(rXSystem.totalPagesRead());	
 	}
 }
 

@@ -10,6 +10,7 @@ public abstract class BibliograficProduct implements Comparable<BibliograficProd
 	private String url;
 	private Double price;
 	private DateFormat formatter;
+	private double pagesRead;
 
 	public BibliograficProduct(int productType, String id, String name, int pages, Calendar publishingDate, String url, Double price) {
 		this.productType = productType;
@@ -19,6 +20,7 @@ public abstract class BibliograficProduct implements Comparable<BibliograficProd
 		this.publishingDate = publishingDate;
 		this.url = url;
 		this.price = price;
+		this.pagesRead=0;
 	}
     
 	public int getProductType() {
@@ -100,7 +102,11 @@ public abstract class BibliograficProduct implements Comparable<BibliograficProd
 		return comparable;
 	}
 
-	
+	public double getPagesRead() {
+        return pagesRead;
+    }
 
-	
+    public void setPagesRead(double pagesRead) {
+        this.pagesRead = pagesRead;
+    }
 }
