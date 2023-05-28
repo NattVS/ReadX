@@ -261,6 +261,7 @@ public class Controller {
 			
 		}
 	}
+
 	public String showUserMatrix(int userPosition){
 		String msg = "";
 		users.get(userPosition).sortByDate();
@@ -268,4 +269,15 @@ public class Controller {
 		return msg;
 	}
 
-}
+	public String readingSession(int userPosition, String readingProduct, int pageCounter){
+		String msg = "";
+		for (BibliograficProduct product: products){
+			if (product.getId().equals(readingProduct)){
+				int currentPage = pageCounter;
+				msg += "You're currently reading" + " " + product.getName() + "\nYour are in page " + currentPage + " out of " + " " + product.getPages();
+			}
+		} 
+		return msg;
+	}
+
+}	

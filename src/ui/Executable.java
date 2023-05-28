@@ -248,18 +248,61 @@ public class Executable {
 	private void showMatrix(){
 		String usersQuery = rXSystem.getUsersList();
 		if (usersQuery.equals("")) {
-			System.out.println("There aren't any users registered or there aren't any bibliografic products registered");
+			System.out.println("There aren't any users registered ");
 		} else {
 			System.out.println("\nThis are the registered users: ");
 			System.out.println(usersQuery);
 			System.out.println("\nEnter the number that corresponds to the user who's library you wish to view");
 			int option = reader.nextInt();
-
-        	System.out.println("\nThis is the current user's book collection sorted by oldest to newest \n\n" + rXSystem.showUserMatrix(option-1));
-		}
-		
+			Boolean flag = false;
+			while (!flag){
+				System.out.println("\nThis is the current user's book collection sorted by oldest to newest \n\n" + rXSystem.showUserMatrix(option-1));
+				System.out.println("\nWhat do you wish to do? \n1. Start a reading session \n2. Go back to main menu");
+				int option2 = reader.nextInt();
+				String readingProduct = "";
+				if (option2 == 1){
+					System.out.println("Enter the id of the product you wish to read");
+					//Buffer
+					reader.nextLine();
+					readingProduct = reader.nextLine();
+					int pageCounter = 1;
+					System.out.println("\nStarting reading session...");
+					String msg = rXSystem.readingSession(option2, readingProduct, pageCounter);
+					System.out.println(msg);
+					Boolean flag2 = false;
+					while (!flag2){
+						System.out.println("Enter A for previous page");
+						System.out.println("Enter S for next page");
+						System.out.println("Enter B for returning to libary page");
+						String letterOption = reader.nextLine();
+						switch (letterOption) {
+							case "A":
+								pageCounter--;
+								msg = rXSystem.readingSession(option2, readingProduct, pageCounter);
+								System.out.println(msg);
+								break;
+							case "S":
+								pageCounter++;
+								msg = rXSystem.readingSession(option2, readingProduct, pageCounter);
+								System.out.println(msg);
+								break;
+							case "B":
+								flag2 = true;
+								System.out.println("Reading session finished...\nReturning to library");
+								flag = false;
+								break;
+							default:
+								System.out.println("Please choose a valid option");
+								break;
+						}
+					}	
+				} else if (option2 == 2){
+					System.out.println("Returning to main menu...");
+					flag = true;
+				}
+			}	
+			
+		}	
 	}
-
-	
 }
 
