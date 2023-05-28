@@ -14,6 +14,11 @@ public class Executable {
 		rXSystem = new Controller();
 	}
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The main method generates an instance for Executable and calls the menu method
+	 * </pre>
+	 */
 	public static void main(String[] args) {
 
 		Executable ejecutable = new Executable();
@@ -21,6 +26,11 @@ public class Executable {
 
 	}
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The menu method holds access to all the functionalities that the program is going to implement
+	 * </pre>
+	 */
 	private void menu() {
 
 		System.out.println("Welcome to ReadX!");
@@ -62,7 +72,7 @@ public class Executable {
 				showMatrix();
 				break;
 			case 8:
-				totalPagesRead();
+				generateReports();
 			break;	
 			case 9:
 				System.out.println("Thanks for using ReadX's services! \nHope we'll see you again, goodbye");
@@ -77,6 +87,15 @@ public class Executable {
 
 	}
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The registerUser method creates users by reciving the users information via console, and shows 
+	 * a confirmation message informing if the user was registered or not
+	 * @param: id String represents the user's id
+	 * @param: name String represents the user's name
+	 * @return: msg String the validation message 
+	 * </pre>
+	 */
 	private void registerUser() {
         String msg = "";
 		System.out.println("Please, enter the information of the new user:");
@@ -95,6 +114,26 @@ public class Executable {
 
 	}
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The registerProduct method creates products by reciving the product information via console, and shows 
+	 * a confirmation message informing if the product was registered or not
+	 * @param: producType int representrs the type of product that  is going to be registered
+	 * @param: id String represents the ID of the product that is going to be registered
+	 * @param: name String represents the name of the product that is going to be registered
+	 * @param: pages int represent the number of pages that the product has
+	 * @param: day int represent the day part of the registration date for the product
+	 * @param: month int represent the month part of the registration date for the product
+	 * @param: year int represent the year part of the registration date for the product
+	 * @param: url String represent the url of the cover image for either a book or a magazine
+	 * @param: price double represent the price in dolars that the products have
+	 * @param: review String represent a short description for the book
+	 * @param: genre int represent a number that later is going to be applied to the ennumeration Genre to asign the proper genre of book
+	 * @param: category int represent a number that later is going to be aplied to the ennumeration Category to asign the proper category of magazine
+	 * @param: emmisionfrecuency String represents how often a magazine is going to be published
+	 * @return: msg String the validation  method 
+	 * </pre>
+	 */
     private void registerProduct(){
         String msg = "";
         String review = "";
@@ -143,6 +182,19 @@ public class Executable {
         System.out.println(msg);
     }
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The modifyBibliograficProduct method allows an interface that is able to modify the information of a product
+	 * @param: option int represents the position of the product that is going to be modified
+	 * @param: modifyOption int represents what aspect of the product it wants to be modified
+	 * @param: proceed Boolean represent the validation of a condition
+	 * @param: modification String represents the new information
+	 * @param: newDay int represents the new day for the modified date
+	 * @param: newMonth int represents the new month for the modified date
+	 * @param: newYear int represents the new year for the modified date
+	 * @return: confirmation message
+	 * </pre>
+	 */
 	private void modifyBibliograficProduct(){
 		String query = rXSystem.getProductsList();
 
@@ -200,6 +252,13 @@ public class Executable {
 		}
 	}
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The deleteBibliograficProduct method allows an interfase that can delete a product from the system
+	 * @param: option int represents the position of the product that is going to be deleted 
+	 * @return: confirmation message
+	 * </pre>
+	 */
 	private void deleteBibliograficProduct(){
 
 		String query = rXSystem.getProductsList();
@@ -223,6 +282,14 @@ public class Executable {
 		}	
 	}
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The buyAProduct method allows a user to buy a product if the user and the product are regsitered in the system
+	 * @param: option int represents the position of the user that is going to buy a product
+	 * @param: option2 int represents the position of the product that is going to be bought
+	 * @return: msg String represents the confirmation message
+	 * </pre>
+	 */
     private void buyAProduct(){
 		String usersQuery = rXSystem.getUsersList();
 		String productsQuery = rXSystem.getProductsList();
@@ -245,6 +312,14 @@ public class Executable {
 		}
     }
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The cancelMagazineSubscription method allows the user to cancel the suscription of a magazine that previously was bought
+	 * @param: option int represents the position of the user that is going to cancel its subscription to a magazine
+	 * @param: option2 int represents the position of the magazine that is going to be cancelled
+	 * @return: msg confirmation message
+	 * </pre>
+	 */
 	private void cancelMagazineSubscription(){
 		String usersQuery = rXSystem.getUsersList();
 		if (usersQuery.equals("")) {
@@ -266,6 +341,18 @@ public class Executable {
 		}
     }
 
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The showMatrix method is used to show the inventory or collection owned by an user, it shows the ID's of the products
+	 * via matix and also allows the user to start a reading session or simulation
+	 * @param: option int represents the position of the user which collection the system is going to show 
+	 * @param: flag Boolean represent the validation of a condition
+	 * @param: flag2 Boolean represent the validation of a condition
+	 * @param: option2 int represents the users option to start a reading session or go back to the main menu
+	 * @param: letterOption String represents the user's movility in the simulation
+	 * @return: confirmation message
+	 * </pre>
+	 */
 	private void showMatrix(){
 		String usersQuery = rXSystem.getUsersList();
 		if (usersQuery.equals("")) {
@@ -325,8 +412,18 @@ public class Executable {
 		}	
 	}
 
-	public void totalPagesRead() {
-		System.out.println(rXSystem.totalPagesRead());	
+	/**
+	 * <pre>
+	 *<strong>Description:</strong> The power method calculates the power of any given number using a given exponent.
+	 * @param: 
+	 * @param: 
+	 * @param: 
+	 * @param: 
+	 * @return: resultPower the result of the power of a number
+	 * </pre>
+	 */
+	public void generateReports() {
+		System.out.println("We are sorry to inform that we are still working on this feature");	
 	}
 }
 
