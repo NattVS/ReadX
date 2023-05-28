@@ -23,6 +23,4 @@ public class Magazine extends BibliograficProduct{
         this.emmisionFrecuency = emmisionFrecuency;
     }
     
-    
-
 }

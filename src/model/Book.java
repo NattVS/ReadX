@@ -22,7 +22,5 @@ public class Book extends BibliograficProduct {
     public void setGenre(Genre genre) {
         this.genre = genre;
     }
-
-
-    
+  
 }

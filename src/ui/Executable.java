@@ -33,8 +33,11 @@ public class Executable {
 			System.out.println("2. Register a product");
 			System.out.println("3. Modify the information of a product");
 			System.out.println("4. Delete a product");
-			System.out.println("5. Buy a product");
-			System.out.println("6. Exit");
+			System.out.println("5. Buy a book or subscribe to a magazine");
+			System.out.println("6. Unsubscribe to a magazine");
+			System.out.println("7. View the library");
+			System.out.println("8. Generate reports");
+			System.out.println("9. Exit");
 			int option = reader.nextInt();
 			switch (option) {
 			case 1:
@@ -53,6 +56,15 @@ public class Executable {
 				buyAProduct();
 				break;
 			case 6:
+				//Missing unsubscribe to a magazine method
+			break;	
+			case 7:
+				showMatrix();
+				break;
+			case 8:
+				//Missing generate reports method
+			break;	
+			case 9:
 				System.out.println("Thanks for using ReadX's services! \nHope we'll see you again, goodbye");
 				flag = true;
 				break;
@@ -212,8 +224,30 @@ public class Executable {
 	}
 
     private void buyAProduct(){
-		System.out.println("We are still working on this option, we'll keep you updated");
+		String usersQuery = rXSystem.getUsersList();
+		String productsQuery = rXSystem.getProductsList();
+		if (usersQuery.equals("")|| productsQuery.equals("")) {
+			System.out.println("There aren't any users registered or there aren't any bibliografic products registered");
+		} else {
+			System.out.println("\nThis are the registered users: ");
+			System.out.println(usersQuery);
+			System.out.println("\nEnter the number that corresponds to the user that is going to buy the product");
+			int option = reader.nextInt();
+
+			System.out.println("\nThis are the registered products: ");
+			System.out.println(productsQuery);
+			System.out.println("\nEnter the number that corresponds to the product that is going to be bought");
+			int option2 = reader.nextInt();
+
+			String msg = rXSystem.buyAProduct(option-1, option2-1);
+
+        	System.out.println(msg);
+		}
     }
+
+	private void showMatrix(){
+		System.out.println("\nThis is the current Book Collection\n\n" + rXSystem.showMatrix());
+	}
 
 	
 }

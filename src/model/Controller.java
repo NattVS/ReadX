@@ -15,10 +15,20 @@ public class Controller {
 
 	public void testCases() {
 
-		users.add(new PremiumUser(1, "1234", "John Smith"));
-		users.add(new RegularUser(2, "5678", "Pocahontas"));
-		products.add(new Book(1, "Book 1", "Giant squids that conquer the world", 54, Calendar.getInstance(), "https//:Gigantsquidsthatconquertheworld.jpg", 20.5, "On a normal day the squids rose from the oceans and began to invade the cities", Genre.SCIENCE_FICTION));
-		products.add(new Magazine(2, "Magazine 1", "SCIENCE WOW!", 24, Calendar.getInstance(), "https//:sciencewow.jpg", 14.5, Category.SCIENTIFIC, "Daily"));
+		users.add(new RegularUser(1, "112345", "Norman Smith"));
+		users.add(new PremiumUser(2, "107582", "Juana Of the Sea"));
+		products.add(new Book(1, "B01", "Giant squids that conquer the world", 54, Calendar.getInstance(), "https//:Gigantsquidsthatconquertheworld.jpg", 20.5, "On a normal day the squids rose from the oceans and began to invade the cities", Genre.SCIENCE_FICTION));
+		products.add(new Book(1, "B02", "Whispers of the forgotten stars", 104, Calendar.getInstance(), "https//:Whispersoftheforgottenstar.jpg", 20.5, "A young stargazer discovers a hidden celestial language in the night sky", Genre.SCIENCE_FICTION));
+		products.add(new Magazine(2, "M01", "SCIENCE WOW!", 24, Calendar.getInstance(), "https//:sciencewow.jpg", 14.5, Category.SCIENTIFIC, "Daily"));
+	}
+
+	public String getUsersList() {
+
+		String msg = "";
+		for (int i = 0; i < users.size(); i++) {
+			msg += "\n" + (i + 1) + ". " + users.get(i).getId() + " - " + users.get(i).getName();
+		}
+		return msg;
 	}
 
 	public String getProductsList() {
@@ -184,6 +194,101 @@ public class Controller {
 	public boolean deleteBibliograficProduct(int productPosition){
 		products.remove(productPosition);
 		return true;
+	}
+
+	public String buyAProduct(int userPosition, int productPosition) {
+		String msg = "";
+		int productType = 0;
+		int maxSizeBooks = 5;
+		int maxSizeMagazine = 2;
+		
+		if (users.get(userPosition) instanceof RegularUser) {
+			if (products.get(productPosition) instanceof Book) {
+				productType = 1;
+			} else if (products.get(productPosition) instanceof Magazine) {
+				productType = 2;
+			}
+			
+			for (int i = -1; i < users.get(userPosition).getCollectionSize(); i++){
+				int info = (users.get(userPosition).getProductsAmount(productType));
+				if (users.get(userPosition).getProductsAmount(productType) > maxSizeBooks) {
+					msg += "You have reached the maximum amount of books that you can buy for free, if you want to buy more, become a premium member now!";
+				} else if (users.get(userPosition).getProductsAmount(productType) > maxSizeMagazine) {
+					msg += "You have reached the maximum amount of magazines that you can subscribe to for free, if you want to subscribe to more, become a premium member now!";
+				}else{
+					msg += info + " " + users.get(userPosition).addProductToInventory(products.get(productPosition));
+				}
+			}
+			
+		} else if (users.get(userPosition) instanceof PremiumUser) {
+			msg += users.get(userPosition).addProductToInventory(products.get(productPosition));
+		}
+		
+		return msg;
+	}
+
+	public void sortByDate() {
+		for (int i = 0; i < products.size(); i++) {
+
+			BibliograficProduct temp = products.get(i);
+			if(i+1<products.size()){
+				BibliograficProduct temp2 = products.get(i+1);
+
+				int compared = temp.compareTo(temp2);
+				if (compared < 0){
+					products.set(i, temp);
+					products.set(i+1, temp2);
+				}else if(compared > 0){
+					products.set(i, temp2);
+					products.set(i+1, temp);
+				}
+
+			}
+			
+		}
+	}
+
+	public String[][] fillMatrix() {
+
+		sortByDate();
+		sortByDate();
+		String[][] matrix = new String[5][5];
+		int index = 0;
+		for (int x = 0; x < matrix.length; x++) {
+			for(int y = 0; y < matrix[x].length; y++){
+				if (matrix[x][y]==null){
+					if (index < products.size()){
+						matrix[x][y]=products.get(index).toString();
+						index++;
+					}
+				}
+			}
+
+		}
+		
+		return matrix;
+
+	}
+
+	public String showMatrix() {
+
+		String[][] matrix = fillMatrix();
+
+		String print = "";
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+
+				if (matrix[i][j] == null) {
+					print += "_____" + " ";
+				} else {
+					print += matrix[i][j] + " ";
+				}
+
+			}
+			print += "\n";
+		}
+
+		return print;
 	}
 
 }

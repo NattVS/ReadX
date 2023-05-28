@@ -1,7 +1,7 @@
 package model;
 import java.util.Calendar;
 import java.text.DateFormat;
-public abstract class BibliograficProduct {
+public abstract class BibliograficProduct implements Comparable<BibliograficProduct>{
     private int productType;
 	private String id;
 	private String name;
@@ -80,4 +80,26 @@ public abstract class BibliograficProduct {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return "["+ id + "]";
+	}
+
+	@Override
+	public int compareTo(BibliograficProduct o) {
+		int comparable = 0;
+		if(getPublishingDate().before (o.getPublishingDate())){
+			comparable = 1;
+			return comparable;
+		}
+		if(getPublishingDate().after (o.getPublishingDate())){
+			comparable = -1;
+			return comparable;
+		}
+		return comparable;
+	}
+
+
+	
 }
