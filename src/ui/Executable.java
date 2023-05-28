@@ -278,12 +278,12 @@ public class Executable {
 						switch (letterOption) {
 							case "A":
 								pageCounter--;
-								msg = rXSystem.readingSession(option2, readingProduct, pageCounter);
+								msg = rXSystem.readingSession(option-1, readingProduct, pageCounter);
 								System.out.println(msg);
 								break;
 							case "S":
 								pageCounter++;
-								msg = rXSystem.readingSession(option2, readingProduct, pageCounter);
+								msg = rXSystem.readingSession(option2-1, readingProduct, pageCounter);
 								System.out.println(msg);
 								break;
 							case "B":
@@ -301,7 +301,6 @@ public class Executable {
 					flag = true;
 				}
 			}	
-			
 		}	
 	}
 }

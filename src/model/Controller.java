@@ -256,10 +256,25 @@ public class Controller {
 					products.set(i, temp2);
 					products.set(i+1, temp);
 				}
-
 			}
-			
 		}
+	}
+
+	public String showAds(){
+		String msg = "";
+		int ad = (int)(Math.random()*3+1);
+		switch (ad){
+			case 1:
+				msg += "Subscribe to our Plus Combo and get Disney+ and Star+ at an incredible price!";
+			break;
+			case 2:
+				msg += "Now your pets have a favorite app: Laika! The best products for your little furrball.";
+			break;
+			case 3:
+				msg += "We are celebrating our anniversary! Visit your nearest Éxito and be surprised with the best offers!";
+			break;
+		}
+		return msg;
 	}
 
 	public String showUserMatrix(int userPosition){
@@ -275,6 +290,18 @@ public class Controller {
 			if (product.getId().equals(readingProduct)){
 				int currentPage = pageCounter;
 				msg += "You're currently reading" + " " + product.getName() + "\nYour are in page " + currentPage + " out of " + " " + product.getPages();
+				if (users.get(userPosition) instanceof RegularUser){
+					
+					if (product instanceof Book){
+						if (currentPage%20 == 0){
+							msg += "\n" + showAds();
+						}
+					}else if (product instanceof Magazine){
+						if (currentPage%5 == 0){
+							msg += "\n" + showAds();
+						}
+					}
+				}
 			}
 		} 
 		return msg;
