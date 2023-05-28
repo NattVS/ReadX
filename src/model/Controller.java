@@ -204,30 +204,44 @@ public class Controller {
 		String msg = "";
 		if (users.get(userPosition) instanceof RegularUser) {
 			int bookAmount = 1;
-			int magazineAmount = 0;
+			int magazineAmount = 1;
 			BibliograficProduct product = products.get(productPosition);
 			for (int i = 0; i < users.get(userPosition).getCollection().size(); i++) {
-				BibliograficProduct userProduct = users.get(userPosition).getCollection().get(i);
-				if (userProduct instanceof Book) {
+				BibliograficProduct boughtProduct = users.get(userPosition).getCollection().get(i);
+				if (boughtProduct instanceof Book) {
 					bookAmount++;
-				} else if (userProduct instanceof Magazine) {
+				} else if (boughtProduct instanceof Magazine) {
 					magazineAmount++;
 				}
 			}
-	
 			if ((product instanceof Book && bookAmount <= 5) || (product instanceof Magazine && magazineAmount <= 2)) {
-				msg += bookAmount + users.get(userPosition).addProductToInventory(products.get(productPosition));
+				msg += users.get(userPosition).addProductToInventory(products.get(productPosition));
+				if (products.get(productPosition) instanceof Book){
+					int soldUnits = ((Book)products.get(productPosition)).getSoldUnits();
+					soldUnits = soldUnits + 1;
+				}else if (products.get(productPosition) instanceof Magazine){
+					int activeSuscriptions = ((Magazine)products.get(productPosition)).getActiveSuscriptions();
+					activeSuscriptions = activeSuscriptions + 1;
+				}	
 			} else {
 				msg += "You have reached the maximum amount of products that you can get for free, if you want to get more, become a premium member now!";
 			}
 		} else {
-			msg = "hi"+ users.get(userPosition).addProductToInventory(products.get(productPosition));
+			msg = users.get(userPosition).addProductToInventory(products.get(productPosition));
+			if (products.get(productPosition) instanceof Book){
+				int soldUnits = ((Book)products.get(productPosition)).getSoldUnits();
+				soldUnits = soldUnits + 1;
+			}else if (products.get(productPosition) instanceof Magazine){
+				int activeSuscriptions = ((Magazine)products.get(productPosition)).getActiveSuscriptions();
+				activeSuscriptions = activeSuscriptions + 1;
+			}
 		}
 	
 		return msg;
 	}
 
 	public void sortByDate() {
+
 		for (int i = 0; i < products.size(); i++) {
 
 			BibliograficProduct temp = products.get(i);
@@ -247,48 +261,11 @@ public class Controller {
 			
 		}
 	}
-
-	public String[][] fillMatrix() {
-
-		sortByDate();
-		sortByDate();
-		String[][] matrix = new String[5][5];
-		int index = 0;
-		for (int x = 0; x < matrix.length; x++) {
-			for(int y = 0; y < matrix[x].length; y++){
-				if (matrix[x][y]==null){
-					if (index < products.size()){
-						matrix[x][y]=products.get(index).toString();
-						index++;
-					}
-				}
-			}
-
-		}
-		
-		return matrix;
-
-	}
-
-	public String showMatrix() {
-
-		String[][] matrix = fillMatrix();
-
-		String print = "";
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-
-				if (matrix[i][j] == null) {
-					print += "_____" + " ";
-				} else {
-					print += matrix[i][j] + " ";
-				}
-
-			}
-			print += "\n";
-		}
-
-		return print;
+	public String showUserMatrix(int userPosition){
+		String msg = "";
+		users.get(userPosition).sortByDate();
+		msg += users.get(userPosition).showMatrix();
+		return msg;
 	}
 
 }

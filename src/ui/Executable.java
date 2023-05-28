@@ -246,7 +246,18 @@ public class Executable {
     }
 
 	private void showMatrix(){
-		System.out.println("\nThis is the current Book Collection\n\n" + rXSystem.showMatrix());
+		String usersQuery = rXSystem.getUsersList();
+		if (usersQuery.equals("")) {
+			System.out.println("There aren't any users registered or there aren't any bibliografic products registered");
+		} else {
+			System.out.println("\nThis are the registered users: ");
+			System.out.println(usersQuery);
+			System.out.println("\nEnter the number that corresponds to the user who's library you wish to view");
+			int option = reader.nextInt();
+
+        	System.out.println("\nThis is the current user's book collection sorted by oldest to newest \n\n" + rXSystem.showUserMatrix(option-1));
+		}
+		
 	}
 
 	

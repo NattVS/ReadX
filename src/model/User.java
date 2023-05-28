@@ -78,6 +78,60 @@ public abstract class User {
 		this.collection = collection;
 	}
 
-	
+	public void sortByDate() {
 
+		for (int i = 0; i < collection.size(); i++) {
+			BibliograficProduct temp = collection.get(i);
+			if(i+1<collection.size()){
+				BibliograficProduct temp2 = collection.get(i+1);
+
+				int compared = temp.compareTo(temp2);
+				if (compared < 0){
+					collection.set(i, temp);
+					collection.set(i+1, temp2);
+				}else if(compared > 0){
+					collection.set(i, temp2);
+					collection.set(i+1, temp);
+				}
+			}
+		}
+	}
+
+	public String[][] fillMatrix() {
+		String[][] matrix = new String[5][5];
+		int index = 0;
+		for (int x = 0; x < matrix.length; x++) {
+			for(int y = 0; y < matrix[x].length; y++){
+				if (matrix[x][y]==null){
+					if (index < collection.size()){
+						matrix[x][y]=collection.get(index).toString();
+						index++;
+					}
+				}
+			}
+
+		}
+		return matrix;
+	}
+
+	public String showMatrix() {
+
+		String[][] matrix = fillMatrix();
+
+		String print = "";
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+
+				if (matrix[i][j] == null) {
+					print += "_____" + " ";
+				} else {
+					print += matrix[i][j] + " ";
+				}
+
+			}
+			print += "\n";
+		}
+
+		return print;
+	}
 }
